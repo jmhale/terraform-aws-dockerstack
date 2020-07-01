@@ -3,7 +3,7 @@ variable "ami_id" {
 }
 
 variable "project_name" {
-  default = "stream-stack"
+  default = "docker-stack"
 }
 
 variable "public_subnet_ids" {

@@ -1,11 +1,11 @@
-# terraform-aws-streamstack
+# terraform-aws-docker-stack
 
-Deploys resources for streaming stack
+Deploys resources that are commonly used for a light-weight docker-compose stack
 
 ## Variables
 | Variable Name | Type | Required |Description |
 |---------------|-------------|-------------|-------------|
-|`public_subnet_ids`|`list`|Yes|A list of subnets for the Autoscaling Group to use for launching instances. May be a single subnet, but it must be an element in a list.|
+|`public_subnet_ids`|`list`|Yes|A list of subnets to launch instances into. May be a single subnet, but it must be an element in a list.|
 |`ssh_key_id`|`string`|Yes|A SSH public key ID to add to the VPN instance.|
 |`vpc_id`|`string`|Yes|The VPC ID in which Terraform will launch the resources.|
 |`ingress_security_group_id`|`string`|Yes|The ID of the Security Group to allow SSH access from.|
@@ -17,7 +17,7 @@ Deploys resources for streaming stack
 
 ```
 module "terraform-aws-streamstack" {
-  source                    = "git@github.com:jmhale/terraform-aws-streamstack.git"
+  source                    = "git@github.com:jmhale/terraform-aws-dockerstack.git"
   ssh_key_id                = "my-ssh-key"
   vpc_id                    = "vpc-12345678"
   public_subnet_ids         = ["subnet-123456"]
@@ -28,7 +28,7 @@ module "terraform-aws-streamstack" {
 ## Outputs
 | Output Name | Description |
 |---------------|-------------|
-|`streamstack_eip`|The public IPv4 address of the AWS Elastic IP assigned to the instance.|
+|`eip`|The public IPv4 address of the AWS Elastic IP assigned to the instance.|
 
 
 ---
