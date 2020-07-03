@@ -23,3 +23,8 @@ variable "env" {
   default     = "prod"
   description = "The name of environment. Used to differentiate multiple deployments"
 }
+
+variable "service_ports" {
+  type    = list(string)
+  default = ["80", "443"]
+}
