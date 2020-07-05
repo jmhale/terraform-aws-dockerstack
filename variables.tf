@@ -17,6 +17,7 @@ variable "vpc_id" {
 }
 
 variable "ingress_security_group_id" {
+  type = list(string)
 }
 
 variable "env" {

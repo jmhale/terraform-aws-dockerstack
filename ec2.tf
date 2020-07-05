@@ -32,7 +32,7 @@ resource "aws_instance" "primary" {
   instance_type          = "t2.micro"
   key_name               = var.ssh_key_id
   subnet_id              = var.public_subnet_ids[0]
-  vpc_security_group_ids = [aws_security_group.public_access.id, var.ingress_security_group_id]
+  vpc_security_group_ids = concat([aws_security_group.public_access.id], var.ingress_security_group_id)
   iam_instance_profile   = aws_iam_instance_profile.primary.name
 
   tags = {
