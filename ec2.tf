@@ -27,6 +27,35 @@ resource "aws_security_group" "public_access" {
   }
 }
 
+data "template_cloudinit_config" "userdata" {
+  gzip          = true
+  base64_encode = true
+
+  # get common user_data
+  part {
+    filename     = "init.sh"
+    content_type = "text/x-shellscript"
+    content      = <<EOF
+#!/bin/bash
+apt-get update
+apt-get -y install apt-transport-https ca-certificates curl gnupg-agent software-properties-common awscli
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose
+usermod -aG docker ubuntu
+EOF
+  }
+
+  # get additional user_data
+  part {
+    filename     = "extra.sh"
+    content_type = "text/x-shellscript"
+    content      = var.boot_script
+  }
+
+}
+
 resource "aws_instance" "primary" {
   ami                    = var.ami_id
   instance_type          = "t2.micro"
@@ -35,15 +64,7 @@ resource "aws_instance" "primary" {
   vpc_security_group_ids = concat([aws_security_group.public_access.id], var.ingress_security_group_id)
   iam_instance_profile   = aws_iam_instance_profile.primary.name
 
-  user_data = <<EOF
-#!/bin/bash
-apt-get update
-apt-get -y install apt-transport-https ca-certificates curl gnupg-agent software-properties-common awscli
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
-apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose
-EOF
+  user_data = data.template_cloudinit_config.userdata.rendered
 
   tags = {
     Name       = var.project_name

@@ -29,3 +29,7 @@ variable "service_ports" {
   type    = list(string)
   default = ["80", "443"]
 }
+
+variable "boot_scriptz" {
+  default = ""
+}
