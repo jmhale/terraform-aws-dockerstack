@@ -30,6 +30,6 @@ variable "service_ports" {
   default = ["80", "443"]
 }
 
-variable "boot_scriptz" {
+variable "boot_script" {
   default = ""
 }
