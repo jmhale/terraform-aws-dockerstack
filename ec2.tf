@@ -33,7 +33,7 @@ data "template_cloudinit_config" "userdata" {
 
   # get common user_data
   part {
-    filename     = "init.sh"
+    filename     = "01.sh"
     content_type = "text/x-shellscript"
     content      = <<EOF
 #!/bin/bash
@@ -49,7 +49,7 @@ EOF
 
   # get additional user_data
   part {
-    filename     = "extra.sh"
+    filename     = "02.sh"
     content_type = "text/x-shellscript"
     content      = var.boot_script
     merge_type   = "list(append)+dict(recurse_array)+str(append)"
