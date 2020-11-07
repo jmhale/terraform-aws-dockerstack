@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "backup_s3_access" {
     resources = ["${aws_s3_bucket.backup.arn}/*"]
 
     actions = [
-      "s3:GetObject"
+      "s3:GetObject",
       "s3:PutObject",
       "s3:PutObjectVersionTagging",
       "s3:PutObjectTagging",
