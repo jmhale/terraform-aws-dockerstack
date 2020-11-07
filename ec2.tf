@@ -52,6 +52,7 @@ EOF
     filename     = "extra.sh"
     content_type = "text/x-shellscript"
     content      = var.boot_script
+    merge_type   = "list(append)+dict(recurse_array)+str(append)"
   }
 
 }
