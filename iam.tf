@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "ec2_assumerole" {
 
 data "aws_iam_policy_document" "backup_s3_access" {
   statement {
-    resources = ["${aws_s3_bucket.backup.arn}"]
+    resources = [aws_s3_bucket.backup.arn]
 
     actions = [
       "s3:ListBucket"
